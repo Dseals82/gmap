@@ -1,0 +1,36 @@
+$(document).ready(function (){
+
+  function initialize() {
+          var myCoords = { lat: latitude, lng: longitude}
+          var mapOptions = {
+        zoom: 20, mapTypeId: 'satellite',
+        center: myCoords,
+        scrollwheel: true
+        }
+
+    var map = new google.maps.Map(document.getElementById('destination-map'), mapOptions);
+    var icon = {
+              url:'<%= image_path 'marker2.png'%>',
+              scaledSize: {width: 45, height:45}
+    }
+    var marker = new google.maps.Marker({
+                position: myCoords,
+                map: map,
+                title: 'You are here',
+                icon: icon,
+                animation: google.maps.Animation.BOUNCE
+});
+
+    var contentString = '<h2>'+ address + '</h2>';
+
+    var infowindow = new google.maps.InfoWindow({
+      content: contentString
+    });
+
+    google.maps.event.addListener(marker, 'click', function() {
+      infowindow.open(map,marker);
+    });
+}
+
+google.maps.event.addDomListener(window, 'load', initialize);
+});
